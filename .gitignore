@@ -1,5 +1,4 @@
 # Created by venv; see https://docs.python.org/3/library/venv.html
-*
 
 # Python cache files
 __pycache__/
@@ -28,3 +27,4 @@ pip-delete-this-directory.txt
 *.whl
 *.egg
 *.egg-info/
+*.iml

@@ -1,0 +1,206 @@
+:root {
+            --spotify-green: #1DB954;
+            --spotify-black: #191414;
+            --spotify-white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: var(--spotify-black);
+            color: var(--spotify-white);
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1, h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        button {
+            background-color: var(--spotify-green);
+            color: var(--spotify-white);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        input {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            margin-right: 10px;
+            width: 250px;
+        }
+
+        hr {
+            margin: 2rem 0;
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        #user {
+            margin: 1rem 0;
+        }
+        /* ---------- Edit page styles ---------- */
+
+        /* Header / title */
+        #playlist-name {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        /* Controls near title */
+        #rename-btn {
+            background-color: transparent;
+            color: var(--spotify-white);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 8px 14px;
+            border-radius: 20px;
+            margin-left: 0.75rem;
+        }
+
+        #public-toggle {
+            transform: scale(1.05);
+            margin-right: 0.5rem;
+        }
+
+        /* Track list items (playlist and liked tracks) */
+        .track-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255,255,255,0.03);
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-bottom: 0.6rem;
+        }
+
+        .track-item strong {
+            color: var(--spotify-white);
+        }
+
+        .track-item span {
+            color: rgba(255,255,255,0.9);
+        }
+
+        .track-item button,
+        .track-item .remove {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.08);
+            color: var(--spotify-white);
+            padding: 6px 10px;
+            border-radius: 16px;
+            cursor: pointer;
+        }
+
+        /* Liked tracks list */
+        #liked-tracks,
+        #playlist-tracks {
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Search bar and inputs on edit page */
+        #search-bar {
+            width: 100%;
+            max-width: 520px;
+            display: block;
+            margin: 0.5rem 0 1rem 0;
+            background: rgba(255,255,255,0.02);
+            color: var(--spotify-white);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        /* Action buttons on edit page use the same primary style but slightly smaller */
+        #add-selected-btn,
+        #show-more {
+            margin-top: 0.5rem;
+            padding: 10px 18px;
+            border-radius: 20px;
+        }
+
+        /* Checkbox label spacing */
+        .track-item label {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            width: 100%;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Focus states */
+        input:focus, button:focus {
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(29,185,84,0.12);
+        }
+
+        /* Small screens tweaks */
+        @media (max-width: 520px) {
+            .track-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            input {
+                width: 100%;
+            }
+
+
+        }
+/* ---------- Loader (rotellina) ---------- */
+
+#loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(25, 20, 20, 0.55); /* leggero overlay scuro, più adatto al tuo tema */
+    backdrop-filter: blur(2px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Rotellina */
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 6px solid rgba(255,255,255,0.2);
+    border-top-color: var(--spotify-green);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+
+
