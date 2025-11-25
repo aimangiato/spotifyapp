@@ -4,6 +4,8 @@ const playlistId = params.get("playlist_id");
 let likedOffset = 0;
 let currentQuery = "";
 
+selectedPlaylistTracks = new Set();
+
 async function loadPlaylistInfo() {
   const r = await fetch(`/api/playlist/${playlistId}`);
   const data = await r.json();
@@ -29,21 +31,34 @@ async function loadPlaylistInfo() {
       <div class="track-info">
           <strong>${track.name}</strong> — ${track.artist}
       </div>
-      <button onclick="removeTrack('${track.id}')" data-id="${track.id}" class="remove">Rimuovi</button>
+      <input type="checkbox" class="playlist-checkbox" data-id="${track.id}">
     `;
 
     list.appendChild(div);
+
+    div.querySelector(".playlist-checkbox").addEventListener("change", (e) => {
+      const id = e.target.dataset.id;
+      if (e.target.checked) {
+        selectedPlaylistTracks.add(id);
+      } else {
+        selectedPlaylistTracks.delete(id);
+      }
+    });
+
   });
 }
 
-async function removeTrack(trackId) {
+document.getElementById("remove-selected-btn").onclick = async () => {
+
+  trackIds = Array.from(selectedPlaylistTracks);
+
   const r = await fetch(`/api/remove_tracks`, {
     method: "POST",
     headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({playlist_id: playlistId, track_ids: [trackId]})
+    body: JSON.stringify({playlist_id: playlistId, track_ids: trackIds})
   });
   if(r.ok) {
-    alert("Traccia rimossa!");
+    alert("Tracce rimosse!");
     await loadPlaylistInfo();
   }
 }
