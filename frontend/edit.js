@@ -29,11 +29,23 @@ async function loadPlaylistInfo() {
       <div class="track-info">
           <strong>${track.name}</strong> — ${track.artist}
       </div>
-      <button id="remove-btn" data-id="${track.id}" class="remove">Rimuovi</button>
+      <button onclick="removeTrack('${track.id}')" data-id="${track.id}" class="remove">Rimuovi</button>
     `;
 
     list.appendChild(div);
   });
+}
+
+async function removeTrack(trackId) {
+  const r = await fetch(`/api/remove_tracks`, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({playlist_id: playlistId, track_ids: [trackId]})
+  });
+  if(r.ok) {
+    alert("Traccia rimossa!");
+    await loadPlaylistInfo();
+  }
 }
 
 
