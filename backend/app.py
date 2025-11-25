@@ -205,12 +205,13 @@ def playlist_info(playlist_id):
     if not sp:
         return jsonify({"error": "not_authenticated"}), 401
 
-    playlist = sp.playlist(playlist_id, fields="name,public,tracks.items(track(name,artists(name),id))")
+    playlist = sp.playlist(playlist_id, fields="name,public,tracks.items(track(name,artists(name),id, album(images))")
     tracks = [
         {
             "id": t["track"]["id"],
             "name": t["track"]["name"],
-            "artist": ", ".join(a["name"] for a in t["track"]["artists"])
+            "artist": ", ".join(a["name"] for a in t["track"]["artists"]),
+            "coverart": t["track"]["album"]["images"][0]["url"]
         }
         for t in playlist["tracks"]["items"]
     ]
@@ -240,7 +241,8 @@ def liked_tracks():
             tracks.append({
                 "id": track["id"],
                 "name": track["name"],
-                "artist": ", ".join(a["name"] for a in track["artists"])
+                "artist": ", ".join(a["name"] for a in track["artists"]),
+                "coverart": track["album"]["images"][0]["url"]
             })
         return jsonify(tracks)
 

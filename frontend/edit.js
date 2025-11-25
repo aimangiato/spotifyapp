@@ -25,8 +25,11 @@ async function loadPlaylistInfo() {
     div.classList.add("track-item");
 
     div.innerHTML = `
-      <span>${track.name} — ${track.artist}</span>
-      <button data-id="${track.id}" class="remove">Rimuovi</button>
+      <img src=${track.coverart} class="track-cover"></img>
+      <div class="track-info">
+          <strong>${track.name}</strong> — ${track.artist}
+      </div>
+      <button id="remove-btn" data-id="${track.id}" class="remove">Rimuovi</button>
     `;
 
     list.appendChild(div);
@@ -48,10 +51,13 @@ async function loadLikedTracks() {
     div.className = "track-item";
 
     div.innerHTML = `
-      <label>
-        <input type="checkbox" class="liked-checkbox" data-id="${t.id}">
-        <strong>${t.name}</strong> — ${t.artist}
-      </label>
+      <img src="${t.coverart}" class="track-cover">
+    
+      <div class="track-info">
+          <strong>${t.name}</strong> — ${t.artist}
+      </div>
+    
+      <input type="checkbox" class="liked-checkbox" data-id="${t.id}">
     `;
 
     // Quando selezioni/deselezioni la traccia

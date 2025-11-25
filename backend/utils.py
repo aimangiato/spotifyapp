@@ -28,7 +28,8 @@ def load_all_liked_tracks(sp):
             all_tracks.append({
                 "id": track["id"],
                 "name": track["name"],
-                "artist": ", ".join(a["name"] for a in track["artists"])
+                "artist": ", ".join(a["name"] for a in track["artists"]),
+                "coverart": track["album"]["images"][0]["url"]
             })
 
         offset += limit
