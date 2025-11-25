@@ -174,6 +174,7 @@ def remove_tracks():
         return jsonify({"error": "not_authenticated"}), 401
 
     data = request.get_json()
+    print(data["track_ids"])
     sp.playlist_remove_all_occurrences_of_items(data["playlist_id"], data["track_ids"])
     return jsonify({"status": "ok"})
 

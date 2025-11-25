@@ -129,6 +129,7 @@
         }
 
         /* Action buttons on edit page use the same primary style but slightly smaller */
+        #remove-selected-btn,
         #add-selected-btn,
         #show-more {
             margin-top: 0.5rem;
