@@ -67,7 +67,12 @@ document.getElementById("remove-selected-btn").onclick = async () => {
 let selectedLikedTracks = new Set();
 
 async function loadLikedTracks() {
-  const r = await fetch(`/api/liked_tracks?offset=${likedOffset}&q=${encodeURIComponent(currentQuery)}`);
+  const url = new URL("/api/liked_tracks", window.location.origin);
+  url.searchParams.set("offset", likedOffset);
+
+  url.searchParams.set("q", currentQuery);
+
+  const r = await fetch(url);
   const data = await r.json();
 
   const list = document.getElementById("liked-tracks");
