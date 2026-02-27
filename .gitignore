@@ -1,0 +1,25 @@
+# Virtual environment
+venv/
+.venv/
+env/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables
+.env
+.python-version
+
+# IDE
+.idea/
+.vscode/
+
+# Packaging
+*.whl
+*.egg
+*.egg-info/
+/backend/.cache
+/.cache
