@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Spotify Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Spotify Tools - Demo (by Aimangiato)</h1>
+    <button id="login">Login with Spotify</button>
+    <hr>
+    <div id="user"></div>
+
+    <h2>Create playlist</h2>
+    <div class="playlist-creator">
+        <input id="pl-name" placeholder="Enter playlist name">
+        <button id="create-pl">Create</button>
+    </div>
+
+    <h2>Le mie playlist</h2>
+    <button id="load-playlists">Carica playlist</button>
+    <div id="playlists">
+        <div id="loader" class="hidden">
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+
+    <script src="app.js"></script>
+</div>
+</body>
+</html>
