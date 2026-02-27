@@ -1,0 +1,30 @@
+# Created by venv; see https://docs.python.org/3/library/venv.html
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+.cache
+
+# Environment files
+.env
+.venv
+env/
+venv/
+ENV/
+.python-version
+
+# IDE configurations
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Requirements and dependencies
+requirements.txt
+pip-log.txt
+pip-delete-this-directory.txt
+*.whl
+*.egg
+*.egg-info/
+*.iml
