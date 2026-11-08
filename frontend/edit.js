@@ -3,6 +3,7 @@ const playlistId = params.get("playlist_id");
 
 let likedOffset = 0;
 let currentQuery = "";
+let existingTrackIds = new Set();
 
 selectedPlaylistTracks = new Set();
 
@@ -15,8 +16,11 @@ async function loadPlaylistInfo() {
     return;
   }
 
+
   // Nome playlist
   document.getElementById("playlist-name").textContent = data.name;
+
+  existingTrackIds = new Set(data.existing_ids);
 
   // Lista brani
   const list = document.getElementById("playlist-tracks");
@@ -60,6 +64,7 @@ document.getElementById("remove-selected-btn").onclick = async () => {
   if(r.ok) {
     alert("Tracce rimosse!");
     await loadPlaylistInfo();
+    await loadLikedTracks();
   }
 }
 
@@ -82,6 +87,8 @@ async function loadLikedTracks() {
 
     div.className = "track-item";
 
+    const alreadyInPlaylist = existingTrackIds.has(t.id);
+
     div.innerHTML = `
       <img src="${t.coverart}" class="track-cover">
     
@@ -89,7 +96,7 @@ async function loadLikedTracks() {
           <strong>${t.name}</strong> — ${t.artist}
       </div>
     
-      <input type="checkbox" class="liked-checkbox" data-id="${t.id}">
+      <input type="checkbox" class="liked-checkbox" data-id="${t.id}" ${alreadyInPlaylist ? "checked disabled" : ""}>
     `;
 
     // Quando selezioni/deselezioni la traccia
@@ -103,6 +110,7 @@ async function loadLikedTracks() {
     });
 
     list.appendChild(div);
+
   });
   likedOffset += 20;
 }
@@ -164,6 +172,7 @@ document.getElementById("rename-btn").onclick = async () => {
   alert("Nome modificato con successo!");
   document.getElementById("playlist-name").textContent = data.name;
 };
+
 
 loadPlaylistInfo();
 loadLikedTracks();

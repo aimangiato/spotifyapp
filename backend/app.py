@@ -126,7 +126,7 @@ def add_tracks():
     duplicate_uris = [uri for uri in uris_to_add if uri in existing_uris]
     if duplicate_uris:
         return jsonify({
-            "error": "duplicate_tracks",
+            "error": f"{len(duplicate_uris)} brani selezionati sono già presenti nella playlist.",
             "duplicate_uris": duplicate_uris
         }), 400
 
@@ -206,20 +206,26 @@ def playlist_info(playlist_id):
     if not sp:
         return jsonify({"error": "not_authenticated"}), 401
 
-    playlist = sp.playlist(playlist_id, fields="name,public,tracks.items(track(name,artists(name),id, album(images))")
-    tracks = [
-        {
-            "id": t["track"]["id"],
-            "name": t["track"]["name"],
-            "artist": ", ".join(a["name"] for a in t["track"]["artists"]),
-            "coverart": t["track"]["album"]["images"][0]["url"]
-        }
-        for t in playlist["tracks"]["items"]
-    ]
+    playlist = sp.playlist(playlist_id, fields="name,public,tracks.items(track(name,artists(name),id, album(images)))")
+
+    tracks = []
+    track_ids_in_playlist = []  # <--- Aggiungiamo questa lista
+
+    for t in playlist["tracks"]["items"]:
+        if t["track"]:
+            tracks.append({
+                "id": t["track"]["id"],
+                "name": t["track"]["name"],
+                "artist": ", ".join(a["name"] for a in t["track"]["artists"]),
+                "coverart": t["track"]["album"]["images"][0]["url"]
+            })
+            track_ids_in_playlist.append(t["track"]["id"])
+
     return jsonify({
         "name": playlist["name"],
         "public": playlist["public"],
-        "tracks": tracks
+        "tracks": tracks,
+        "existing_ids": track_ids_in_playlist
     })
 
 
@@ -261,6 +267,19 @@ def liked_tracks():
 
     return jsonify(paginated)
 
+@app.route("/api/remove_from_liked", methods=["POST"])
+def remove_from_liked():
+    sp = get_spotify_client()
+    if not sp:
+        return jsonify({"error": "not_authenticated"}), 401
+    data = request.get_json()
+    track_ids = data.get("track_id")
+    if not track_ids:
+        return jsonify({"error": "Non è stata selezionata nessuna traccia."}), 400
+    sp.current_user_saved_tracks_delete(track_ids)
+    return jsonify({"status": "ok"})
+
+
 
 @app.route("/api/playlist/<playlist_id>/rename", methods=["POST"])
 def rename_playlist(playlist_id):
@@ -283,4 +302,4 @@ def index():
     return app.send_static_file("index.html")
 
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(port=8080, debug=True)
