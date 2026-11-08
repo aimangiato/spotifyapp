@@ -1,18 +1,13 @@
-from functools import lru_cache
-import time
-
-LIKED_CACHE_TTL = 60 * 5  # 5 minuti
-_last_cache_time = 0
-_cached_liked_tracks = []
-
+"""
+Modulo di utility per l'interazione con l'API Spotify.
+Tutte le funzioni sono pure e stateless per garantire l'isolamento dei dati multi-tenant.
+"""
 
 def load_all_liked_tracks(sp):
-    global _last_cache_time, _cached_liked_tracks
-
-    # Cache valida?
-    if time.time() - _last_cache_time < LIKED_CACHE_TTL:
-        return _cached_liked_tracks
-
+    """
+    Recupera tutti i brani preferiti dell'utente autenticato direttamente dalle API Spotify.
+    Funzione pura senza memorizzazione in cache globale (SEC-01: fix data-leakage multi-tenant).
+    """
     all_tracks = []
     offset = 0
     limit = 50
@@ -24,18 +19,17 @@ def load_all_liked_tracks(sp):
             break
 
         for item in items:
-            track = item["track"]
+            track = item.get("track")
+            if not track:
+                continue
             all_tracks.append({
-                "id": track["id"],
-                "name": track["name"],
-                "artist": ", ".join(a["name"] for a in track["artists"]),
-                #"coverart": track["album"]["images"][0]["url"]
+                "id": track.get("id"),
+                "name": track.get("name"),
+                "artist": ", ".join(a["name"] for a in track.get("artists", []) if "name" in a),
             })
 
         offset += limit
-        if offset >= results["total"]:
+        if offset >= results.get("total", 0):
             break
 
-    _cached_liked_tracks = all_tracks
-    _last_cache_time = time.time()
     return all_tracks
